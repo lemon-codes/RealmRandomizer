@@ -2,7 +2,7 @@ class Randomizer {
     IMAGE_PATH = "./images/realms/";
 
     realms = {
-        // "Garden Of Joy": "Garden_Of_Joy.webp",
+        "Garden Of Joy": "Garden_Of_Joy.webp",
         "Forsaken Boneyard": "Forsaken_Boneyard.webp",
         "Raccoon City": "Raccoon_City.webp",
         "Silent Hill": "Silent_Hill.webp",
