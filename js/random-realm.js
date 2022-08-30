@@ -1,29 +1,14 @@
+import {RealmRepo} from "./realmRepo.js";
+
 class Randomizer {
-    IMAGE_PATH = "./images/realms/";
-
-    realms = {
-        "Garden Of Joy": "Garden_Of_Joy.webp",
-        "Forsaken Boneyard": "Forsaken_Boneyard.webp",
-        "Raccoon City": "Raccoon_City.webp",
-        "Silent Hill": "Silent_Hill.webp",
-        "Grave of Glenvale": "Grave_Of_Glenvale.webp",
-        "Yamaoka Estate": "Yamaoka_Estate.webp",
-        "Red Forest": "Red_Forest.webp",
-        "Ormond": "Ormond.webp",
-        "Gideon Meat Plant": "Gideon_Meat_Plant.webp",
-        "Springwoood": "Springwood.webp",
-        "Léry's Memorial Institute": "Lerys_Memorial_Institute.webp",
-        "Backwater Swamp": "Backwater_Swamp.webp",
-        "Haddonfield": "Haddonfield.webp",
-        "Crotus Prenn Asylum": "Crotus_Prenn_Asylum.webp",
-        "Autohaven Wreckers": "Autohaven_Wreckers.webp",
-        "The MacMillan Estate": "The_MacMillan_Estate.webp",
-        "Coldwind Farm": "Coldwind_Farm.webp"
-    }
-
-    realmNames = Object.keys(this.realms);
     randomizationInProgress = false;
     currentRealm = null;
+
+    constructor() {
+        this.realmRepo = new RealmRepo();
+        this.realmNames = this.realmRepo.getAllRealmNames();
+        this.initEventListeners();
+    }
 
     /**
      * Selects a new random realm with a 1-second delay.
@@ -56,19 +41,33 @@ class Randomizer {
     }
 
     /**
-     * Select a random realm and update realm fields.
+     * Select a random realm and update realm and offering fields.
      * The same realm will not be selected sequentially.
      */
     updateRealm() {
         const realmName = document.getElementById("realm-name");
         const realmImage = document.getElementById("realm-image");
+        const offeringName = document.getElementById("offering-name");
+        const offeringImage = document.getElementById("offering-image");
+        const newRealm = this.getRandomRealmName();
+
+        realmName.innerText = newRealm;
+        realmImage.src = this.realmRepo.getRealmImagePath(newRealm);
+        offeringName.innerText = this.realmRepo.getOfferingName(newRealm);
+        offeringImage.src = this.realmRepo.getOfferingImagePath(newRealm);
+
+        this.currentRealm = newRealm;
+    }
+
+    /**
+     * Returns a random realm name - will not return current realm.
+     */
+    getRandomRealmName() {
         let newRealm = this.realmNames[this.getRandomInt(0, this.realmNames.length - 1)];
         while (this.currentRealm === newRealm) {
             newRealm = this.realmNames[this.getRandomInt(0, this.realmNames.length - 1)];
         }
-        realmName.innerText = newRealm;
-        realmImage.src = this.IMAGE_PATH + this.realms[newRealm];
-        this.currentRealm = newRealm;
+        return newRealm;
     }
 
     /**
@@ -78,15 +77,17 @@ class Randomizer {
         return Math.floor(Math.random() * (max - min + 1)) + min;
     }
 
-
-    init() {
+    /**
+     * Initialise event listeners for UI components.
+     * Currently, this only applies to the randomize button.
+     */
+    initEventListeners() {
         const randomizeButton = document.getElementById("randomize-button");
         randomizeButton.addEventListener("click", this.processRandomizeButtonClick);
     }
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    const randomizer = new Randomizer();
-    randomizer.init();
+    new Randomizer();
 });
 
