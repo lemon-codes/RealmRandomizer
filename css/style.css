@@ -17,3 +17,13 @@ body {
     align-items: center;
     overflow: hidden;
 }
+
+#realm-name {
+    font-weight: bold;
+}
+
+.flex-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
