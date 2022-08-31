@@ -15,11 +15,30 @@ body {
     max-width: 100%;
     justify-content: center;
     align-items: center;
+    align-content: center;
     overflow: hidden;
 }
 
 #realm-name {
     font-weight: bold;
+    margin-top: 1rem;
+    justify-content: center;
+    align-content: center;
+}
+
+#realm-image {
+    height: 100%;
+    width: 100%;
+    object-fit: contain;
+    max-width: 526px;
+    max-height: 350px;
+    justify-content: center;
+    align-content: center;
+}
+
+#offering-image {
+    width: 80px;
+    height: 80px;
 }
 
 .flex-container {
